@@ -1,9 +1,15 @@
 #!/usr/bin/python3
 
-import pandas as pd
+import sys
 
-input_file = 'USD_2023_with_gaps.csv'
-output_file = 'USD_2023.csv'
+if len(sys.argv) != 3:
+    print("Usage: fill_gaps_in_currency_rates.py input_file_rates_with_gaps.csv output_file_rates_corrected.csv")
+    exit()
+else:
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+import pandas as pd
 
 df = pd.read_csv(input_file, header=None, names=['Date', 'Rate'], parse_dates=['Date'], dayfirst=True)
 
