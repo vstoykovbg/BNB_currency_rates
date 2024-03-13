@@ -40,6 +40,7 @@ Error: time data '' does not match format '%m/%d/%y'
 
 Примерни данни за `input_file`:
 ```
+05/25/23
 06/12/23
 06/15/23
 08/24/23
