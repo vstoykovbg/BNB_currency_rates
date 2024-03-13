@@ -78,7 +78,7 @@ Original Date,Converted Date,Currency Rate
 
 Не забрайвяте във формулата за преизчисляване да сложите закръгляване до втория знак след десетичната точка - например `=ROUND(A3*C3,2)`.
 
-![снимка на екрана на електронна таблица с формула за закръгляване]([http://url/to/img.png](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhH91jrvB0x5pLP-ozaNdTI6i8mTTh4ufCDsNEYzFUdaD4bDKz2y_P5Gbf6F7B9MMuIBnMKYRZXpVc_nY65YOlj-hKur2WoVxiPeLlGJKLS8e9JTaK2GLGm_mJLNtfNznRmQ00t0E0fO3KfHJyyd8CB-Pi8_ekyqCj7JkptN6MfEJS_n2FMPvs2TsCZoAWO/s409/interest-example.png)https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhH91jrvB0x5pLP-ozaNdTI6i8mTTh4ufCDsNEYzFUdaD4bDKz2y_P5Gbf6F7B9MMuIBnMKYRZXpVc_nY65YOlj-hKur2WoVxiPeLlGJKLS8e9JTaK2GLGm_mJLNtfNznRmQ00t0E0fO3KfHJyyd8CB-Pi8_ekyqCj7JkptN6MfEJS_n2FMPvs2TsCZoAWO/s409/interest-example.png) 
+![снимка на екрана на електронна таблица с формула за закръгляване](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhH91jrvB0x5pLP-ozaNdTI6i8mTTh4ufCDsNEYzFUdaD4bDKz2y_P5Gbf6F7B9MMuIBnMKYRZXpVc_nY65YOlj-hKur2WoVxiPeLlGJKLS8e9JTaK2GLGm_mJLNtfNznRmQ00t0E0fO3KfHJyyd8CB-Pi8_ekyqCj7JkptN6MfEJS_n2FMPvs2TsCZoAWO/s409/interest-example.png) 
 
 Подробно как трябва да се обработят данните за данъчната декларация:
 
