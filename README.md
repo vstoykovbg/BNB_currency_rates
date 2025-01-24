@@ -82,7 +82,7 @@ Sleeping for 1.896 seconds... Done sleeping.
 Fetching data... Data fetched successfully.
 Exchange rates for USD in 2024 saved to USD_2024_corrected_.csv
 ```
-
+Скриптът работи за USD, GBP, AUD, CHF, CAD. Обаче за някои валути като JPY изтегля валутния курс не за 1 валутна единица, а за различен брой (при JPY тегли валутния курс за 100 JPY).
 
 ## Примерно ползване
 ```console
