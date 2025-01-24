@@ -31,6 +31,59 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
 Данните във файловете с имена, съдържащи "with_gaps", са получени от сайта на БНБ (липсват данни за някои дни, защото БНБ не дава валутен курс когато е почивен ден).
 
+## BNB_downloader.py - скрипт за теглене директно от сайта на БНБ
+
+Ако се ползва този скрипт няма нужда от `fill_gaps_in_currency_rates.py`, защото освен че тегли данните директно от сайта на БНБ запълва и празнините.
+
+Скриптът тегли датите от декември месец предната година и всички месеци от зададената година като ползва данните от миналата година за да запълни празнините в началото на януари.
+
+Скриптът изчаква случаен интервал между 1 и 3 секудни преди всяко теглене за да не натоварва сайта на БНБ (да не се задейства някоя защита против претоварване):
+
+```console
+$ ./BNB_downloader.py USD 2024 USD_2024_corrected.csv
+Preparing to download currency rates for USD from 01 December 2023 to 31 December 2023...
+Sleeping for 1.511 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 January 2024 to 31 January 2024...
+Sleeping for 2.742 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 February 2024 to 29 February 2024...
+Sleeping for 2.550 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 March 2024 to 31 March 2024...
+Sleeping for 1.097 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 April 2024 to 30 April 2024...
+Sleeping for 1.589 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 May 2024 to 31 May 2024...
+Sleeping for 2.272 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 June 2024 to 30 June 2024...
+Sleeping for 1.522 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 July 2024 to 31 July 2024...
+Sleeping for 2.489 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 August 2024 to 31 August 2024...
+Sleeping for 2.168 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 September 2024 to 30 September 2024...
+Sleeping for 2.311 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 October 2024 to 31 October 2024...
+Sleeping for 1.560 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 November 2024 to 30 November 2024...
+Sleeping for 2.663 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Preparing to download currency rates for USD from 01 December 2024 to 31 December 2024...
+Sleeping for 1.896 seconds... Done sleeping.
+Fetching data... Data fetched successfully.
+Exchange rates for USD in 2024 saved to USD_2024_corrected_.csv
+```
+
+
 ## Примерно ползване
 ```console
 $ ./convert_date_and_add_currency_rate.py USD_2023_corrected.csv input_file output_file.csv
