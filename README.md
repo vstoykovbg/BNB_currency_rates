@@ -37,7 +37,9 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
 Скриптът тегли датите от декември месец предната година и всички месеци от зададената година като ползва данните от миналата година за да запълни празнините в началото на януари.
 
-Скриптът изчаква случаен интервал между 1 и 3 секудни преди всяко теглене за да не натоварва сайта на БНБ (да не се задейства някоя защита против претоварване):
+Скриптът изчаква случаен интервал между 1 и 3 секудни преди всяко теглене за да не натоварва сайта на БНБ (да не се задейства някоя защита против претоварване).
+
+Пример за теглене на валутните курсове за USD през 2024 година:
 
 ```console
 $ ./BNB_downloader.py USD 2024 USD_2024_corrected.csv
@@ -80,7 +82,7 @@ Fetching data... Data fetched successfully.
 Preparing to download currency rates for USD from 01 December 2024 to 31 December 2024...
 Sleeping for 1.896 seconds... Done sleeping.
 Fetching data... Data fetched successfully.
-Exchange rates for USD in 2024 saved to USD_2024_corrected_.csv
+Exchange rates for USD in 2024 saved to USD_2024_corrected.csv
 ```
 Скриптът работи за USD, GBP, AUD, CHF, CAD. Обаче за някои валути като JPY изтегля валутния курс не за 1 валутна единица, а за различен брой (при JPY тегли валутния курс за 100 JPY).
 
