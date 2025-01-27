@@ -208,11 +208,13 @@ Original Date,Converted Date,Currency Rate
 
 Електронната таблица dividends_calculator.ods работи с LibreOffice (тествах я с LibreOffice 24.8.3.2).
 
-Предназначена е за прости изчисления (напр. доходи от лихви).
+Предназначена е за доходи от дивиденти. Ако има удържан дивидент приема, че е код 1 (обикновен данъчен кредит), в противен случай приема код 3.
+
+Изчислява повече колони, отколкото са необходими за [nap-autopilot](https://github.com/vstoykovbg/nap-autopilot) (тоест може ако желаете ръчно да препишете съответните числа в годишната данъчна декларация, ако по някаква причина не искате да ползвате nap-autopilot).
 
 ![снимка на екрана на dividends_calculator.ods](dividends_calculator_screenshot.png) 
 
-Преди да пуснете макроса изключете защитата на dividends_calculator от Tools -> Protect sheet.
+Преди да пуснете макроса изключете защитата на **dividends_calculator** от Tools -> Protect sheet.
 
 Обърнете внимание, че преди да изберете Tools -> Protect sheet трябва да сте избрали dividends_calculator, а не този sheet (Инструкции за употреба).
 
@@ -226,4 +228,4 @@ Original Date,Converted Date,Currency Rate
 
 RUN_ME_with_cleaning прави същото като RUN_ME с тази разлика, че изчиства редовете на колони F, G, H, I, J, K, L, M, N до 100 реда надолу от последната дата в колона E (с цел оптимизация е ограничена проверката за въведени данни). Ако има празнина от повече от 100 реда в колона E следващите редове се игнорират.
 
-След изпълнение на макроса можете да запазите dividends_export_csv във формат CSV с цел да захраните [nap-autopilot](https://github.com/vstoykovbg/nap-autopilot) (автоматично въвеждане на данни в данъчната декларация).
+След изпълнение на макроса можете да запазите **dividends_export_csv** във формат CSV с цел да захраните [nap-autopilot](https://github.com/vstoykovbg/nap-autopilot) (автоматично въвеждане на данни в данъчната декларация).
