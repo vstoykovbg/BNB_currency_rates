@@ -87,7 +87,7 @@ Exchange rates for USD in 2024 saved to USD_2024_corrected.csv
 
 Изчислява повече колони, отколкото са необходими за [nap-autopilot](https://github.com/vstoykovbg/nap-autopilot) (тоест може ако желаете ръчно да препишете съответните числа в годишната данъчна декларация, ако по някаква причина не искате да ползвате nap-autopilot).
 
-![снимка на екрана на dividends_calculator.ods](dividends_calculator_screenshot.png) 
+![снимка на екрана на dividends_calculator.ods](screenshots/dividends_calculator_screenshot.png) 
 
 Преди да пуснете макроса изключете защитата на **dividends_calculator** от Tools -> Protect sheet.
 
@@ -111,7 +111,7 @@ RUN_ME_with_cleaning прави същото като RUN_ME с тази раз�
 
 Предназначена е за подпомагане попълването на таблиците в приложение 8 за притежаваните акции и дялове. Подпомага генерирането на CSV файл за nap-autopilot.
 
-![снимка на екрана на shares_calculator.ods](shares_calculator_screenshot.png) 
+![снимка на екрана на shares_calculator.ods](screenshots/shares_calculator_screenshot.png) 
 
 Преди да пуснете макроса изключете защитата на shares_calculator от Tools -> Protect sheet.
 
