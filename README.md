@@ -60,7 +60,7 @@ Exchange rates for USD in 2024 saved to USD_2024_corrected.csv
 
 Предназначена е за прости изчисления (напр. доходи от лихви).
 
-![снимка на екрана на currency_conversion_calculator.ods](calculator-screenshot.png) 
+![снимка на екрана на currency_conversion_calculator.ods](screenshots/calculator-screenshot.png) 
 
 Потребителят въвежда датата в желания от него формат (ползва се функцията на електронната таблица за форматиране на дата), трибуквения код на валутата (USD, EUR, GBP и т.н.) и сумата в тази валута. Таблицата автоматично взима правилния валутен курс и изчислява общата сума на дохода в лева.
 
