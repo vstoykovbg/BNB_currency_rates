@@ -9,6 +9,7 @@ import calendar
 import random
 import time
 import sys
+from decimal import Decimal, getcontext
 
 def download_and_process_exchange_rate_data(year, currency):
     def get_month_start_end_dates(year, month):
@@ -16,6 +17,37 @@ def download_and_process_exchange_rate_data(year, currency):
         first_day = datetime(year, month, 1)
         last_day = datetime(year, month, calendar.monthrange(year, month)[1])
         return first_day, last_day
+
+    def validate_first_line(first_line, start_date, end_date):
+        """Validates the first line of the CSV data."""
+        # Join the first line if it was split by commas
+        if isinstance(first_line, list):
+            first_line = ",".join(first_line).strip()  # No extra space after the comma
+        
+        # Remove any leading/trailing whitespace or invisible characters (e.g., BOM)
+        first_line = first_line.strip()
+        print(f"first_line: \"{first_line}\"")  # Debugging output
+
+        expected_start = "Курсове на българския лев"
+        expected_end = f"{start_date.strftime('%d.%m.%Y')} до {end_date.strftime('%d.%m.%Y')}"
+        
+        # Check if the expected start string is present in the first line
+        if expected_start not in first_line:
+            raise ValueError(f"First line does not contain '{expected_start}'.")
+        
+        # Check if the expected end string is present in the first line
+        if expected_end not in first_line:
+            raise ValueError(f"First line does not contain the expected date range '{expected_end}'.")
+
+    def validate_headers(headers):
+        """Validates the headers of the CSV data."""
+        if len(headers) < 5:
+            raise ValueError("CSV headers are incomplete.")
+        
+        if headers[2].strip() != "за":
+            raise ValueError(f"Third column header is not 'за'. Found: '{headers[2]}'.")
+        if headers[3].strip() != "в BGN":
+            raise ValueError(f"Fourth column header is not 'в BGN'. Found: '{headers[3]}'.")
 
     def download_data(start_date, end_date, currency):
         """Downloads exchange rate data for a given date range."""
@@ -25,8 +57,6 @@ def download_and_process_exchange_rate_data(year, currency):
             f"&periodEndDays={end_date.day:02d}&periodEndMonths={end_date.month:02d}&periodEndYear={end_date.year}&valutes={currency}&search=true"
             f"&showChart=false&showChartButton=true&type=CSV"
         )
-
-        #print(f"Preparing to download currency rates for {currency} from {start_date} to {end_date}...")
 
         start_date_str = start_date.strftime("%d %B %Y")  # "01 January 2023"
         end_date_str = end_date.strftime("%d %B %Y")      # "31 December 2023"
@@ -49,25 +79,46 @@ def download_and_process_exchange_rate_data(year, currency):
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {url} with status code {response.status_code}")
         print("Data fetched successfully.")
-        
-        return response.text
 
-    def parse_csv_data(csv_data):
-        """Parses the CSV data and returns a dictionary of dates and rates."""
-        csv_content = StringIO(csv_data)
+        # Parse the CSV data
+        csv_content = StringIO(response.text)
         reader = csv.reader(csv_content, delimiter=',')
+
+        # Validate the first line
+        first_line = next(reader)  # Get the entire first row (split by commas)
+        validate_first_line(first_line, start_date, end_date)
+
+        # Validate the headers
+        headers = next(reader)
+        validate_headers(headers)
+
+        # Return only the data lines (skip the first two lines)
+        data_lines = list(reader)
+        return data_lines
+
+    def parse_csv_data(data_lines, currency):
+        """Parses the CSV data and returns a dictionary of dates and rates."""
         rates = {}
 
-        for row in reader:
+        for row in data_lines:
             # Skip invalid rows (e.g., headers, empty rows)
             if len(row) < 5 or not row[0].strip().replace(".", "").isdigit():
                 continue
 
             try:
                 date = row[0].strip()
-                rate = row[3].strip()
-                rates[date] = rate
-            except (ValueError, IndexError):
+                currency_code = row[1].strip()
+                quantity = Decimal(row[2].strip())  # The "за" column (X units)
+                rate_in_bgn = Decimal(row[3].strip())  # The "в BGN" column (BGN for X units)
+                
+                # Check if the currency code matches
+                if currency_code != currency:
+                    raise ValueError(f"Expected currency code '{currency}' but found '{currency_code}' on {date}.")
+
+                # Calculate rate for 1 unit: BGN per 1 currency unit
+                rate_per_1_unit = rate_in_bgn / quantity
+                rates[date] = rate_per_1_unit
+            except (ValueError, IndexError, ZeroDivisionError):
                 continue  # Ignore rows with invalid data
         
         return rates
@@ -113,8 +164,8 @@ def download_and_process_exchange_rate_data(year, currency):
     
     # Combine all data into a single list
     combined_rates = {}
-    for data in all_data:
-        parsed_rates = parse_csv_data(data)
+    for data_lines in all_data:
+        parsed_rates = parse_csv_data(data_lines, currency)
         combined_rates.update(parsed_rates)
 
     # Fill gaps for the entire period from December of the previous year to December of the current year
@@ -135,7 +186,9 @@ def save_rates_to_csv(rates, filename):
         writer = csv.writer(f)
         writer.writerow(['Date', 'Exchange Rate'])
         for date, rate in rates.items():
-            writer.writerow([date, str(rate).rstrip('0').rstrip('.')])
+            # Format the rate to remove trailing zeros and unnecessary decimal points
+            formatted_rate = format(rate.normalize(), 'f').rstrip('0').rstrip('.')
+            writer.writerow([date, formatted_rate])
 
 def main():
     # Set up argument parsing
@@ -160,4 +213,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-
