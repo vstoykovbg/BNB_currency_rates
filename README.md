@@ -14,48 +14,10 @@
 
 ```console
 $ ./BNB_downloader.py USD 2024 USD_2024_corrected.csv
-Preparing to download currency rates for USD from 01 December 2023 to 31 December 2023...
-Sleeping for 1.511 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 January 2024 to 31 January 2024...
-Sleeping for 2.742 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 February 2024 to 29 February 2024...
-Sleeping for 2.550 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 March 2024 to 31 March 2024...
-Sleeping for 1.097 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 April 2024 to 30 April 2024...
-Sleeping for 1.589 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 May 2024 to 31 May 2024...
-Sleeping for 2.272 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 June 2024 to 30 June 2024...
-Sleeping for 1.522 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 July 2024 to 31 July 2024...
-Sleeping for 2.489 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 August 2024 to 31 August 2024...
-Sleeping for 2.168 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 September 2024 to 30 September 2024...
-Sleeping for 2.311 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 October 2024 to 31 October 2024...
-Sleeping for 1.560 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 November 2024 to 30 November 2024...
-Sleeping for 2.663 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Preparing to download currency rates for USD from 01 December 2024 to 31 December 2024...
-Sleeping for 1.896 seconds... Done sleeping.
-Fetching data... Data fetched successfully.
-Exchange rates for USD in 2024 saved to USD_2024_corrected.csv
 ```
-Скриптът работи за USD, GBP, AUD, CHF, CAD. Обаче за някои валути като JPY изтегля валутния курс не за 1 валутна единица, а за различен брой (при JPY тегли валутния курс за 100 JPY). Причината е, че БНБ ги дава в този вид, вижте [на страницата за валутните курсове](https://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/index.htm) за кои валути валутният курс не е за 1 единица.
+За някои валути, например JPY, БНБ дава валутния курс не за една валутна единица, а за повече (в случая с JPY - 100 валутни единици). Скриптът коригира валутния курс така че да бъде за 1 валутна единица.
+
+Скриптът прави проверки на първия ред и хедъра (хедърът е на втория ред, lol), а също и проверка на трибуквения код на валутата на всеки ред с валутни курсове.
 
 # Електронни таблици
 
