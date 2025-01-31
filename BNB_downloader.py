@@ -10,6 +10,7 @@ import random
 import time
 import sys
 from decimal import Decimal, getcontext
+from decimal import Decimal, InvalidOperation
 
 def download_and_process_exchange_rate_data(year, currency):
     def get_month_start_end_dates(year, month):
@@ -108,8 +109,16 @@ def download_and_process_exchange_rate_data(year, currency):
             try:
                 date = row[0].strip()
                 currency_code = row[1].strip()
-                quantity = Decimal(row[2].strip())  # The "за" column (X units)
-                rate_in_bgn = Decimal(row[3].strip())  # The "в BGN" column (BGN for X units)
+                quantity_str = row[2].strip()
+                rate_in_bgn_str = row[3].strip()
+
+                # Skip rows where quantity or rate is "n/a"
+                if quantity_str.lower() == "n/a" or rate_in_bgn_str.lower() == "n/a":
+                    print("Warning: n/a in the data for currency ", currency_code ," at date", date, ".")
+                    continue
+
+                quantity = Decimal(quantity_str)  # The "за" column (X units)
+                rate_in_bgn = Decimal(rate_in_bgn_str)  # The "в BGN" column (BGN for X units)
                 
                 # Check if the currency code matches
                 if currency_code != currency:
@@ -118,7 +127,8 @@ def download_and_process_exchange_rate_data(year, currency):
                 # Calculate rate for 1 unit: BGN per 1 currency unit
                 rate_per_1_unit = rate_in_bgn / quantity
                 rates[date] = rate_per_1_unit
-            except (ValueError, IndexError, ZeroDivisionError):
+            except (ValueError, IndexError, ZeroDivisionError, InvalidOperation):
+                print("Warning: exception in parse_csv_data.")
                 continue  # Ignore rows with invalid data
         
         return rates
