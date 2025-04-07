@@ -320,6 +320,14 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
 ## Автоматична обработка на лихвите от Trading212
 
+    $ ./process_T212_interest_from_CSV_file.py 
+    ERROR: Input CSV file is required.
+    
+    Usage:  process_T212_interest_from_CSV_file.py [mode=sheet|total] <input_csv> [output_csv]
+      mode         Optional. 'sheet' to generate spreadsheet-style output, 'total' (default) for summary.
+      input_csv    Required. Path to the input CSV file.
+      output_csv   Optional. Path to the output CSV file.
+
 Може да изведе csv файл с детайли:
 
     $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-table-interest.csv mode=sheet
@@ -338,6 +346,15 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
 
 ## Автоматична обработка на кешбеците от Trading212
+
+
+    $ ./process_T212_cashback_from_CSV_file.py 
+    ERROR: Input CSV file is required.
+    
+    Usage: process_T212_cashback_from_CSV_file.py [mode=sheet|total] <input_csv> [output_csv]
+      mode=...      Optional. Choose 'sheet' or 'total' (default is 'total').
+      input_csv     Required. Path to input CSV file.
+      output_csv    Optional. Path to output CSV file (defaults to stdout or derived).
 
 Може да изведе csv файл с детайли:
 
