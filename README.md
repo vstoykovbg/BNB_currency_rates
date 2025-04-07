@@ -316,6 +316,46 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
 Когато има удържани данъци върху дивидентите резултатите са приблизителни, но това не е проблем, защото може погрешка да се декларира по-малко дължим в България данък само в случаите когато удържаният в чужбина данък е над 0%, но под 5% (не се сещам за случай когато се удържа такъв данък, много малко вероятно е да попаднете на такъв данък).
 
+Не поправя датата, само извежда съобщение (warning), че датата може да е грешна заради разликата в часово време (вероятно GMT е за CSV справките). Другите скриптове (за лихви и кешбеци) - също.
+
+## Автоматична обработка на лихвите от Trading212
+
+Може да изведе csv файл с детайли:
+
+    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-table-interest.csv mode=sheet
+
+Или само обща сума:
+
+    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-total-interest-value.txt mode=total
+
+По подразбиране приема mode=total:
+
+    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-total-interest-value.txt
+
+Ако не се зададе име на файл за запис извежда само на екрана общата сума:
+
+    $ ./process_T212_interest_from_CSV_file.py input_interest.csv
+
+
+## Автоматична обработка на кешбеците от Trading212
+
+Може да изведе csv файл с детайли:
+
+    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-table-cashback.csv mode=sheet
+
+Или само обща сума:
+
+    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-total-cashback-value.txt mode=total
+
+По подразбиране приема mode=total:
+
+    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-total-cashback-value.txt
+
+Ако не се зададе име на файл за запис извежда само на екрана общата сума:
+
+    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv
+
+
 -----
 
 
