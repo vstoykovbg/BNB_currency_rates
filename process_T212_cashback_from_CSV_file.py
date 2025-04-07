@@ -61,26 +61,43 @@ def look_for_currency_rate(code, date_str):
     print(f"ERROR: No currency rate file found for {code} among {filenames}")
     sys.exit(1)
 
+def print_usage():
+    script_name = os.path.basename(sys.argv[0])
+    print(f"Usage: {script_name} [mode=sheet|total] <input_csv> [output_csv]")
+    print("  mode=...      Optional. Choose 'sheet' or 'total' (default is 'total').")
+    print("  input_csv     Required. Path to input CSV file.")
+    print("  output_csv    Optional. Path to output CSV file (defaults to stdout or derived).")
+    print()
+
 def parse_arguments(args):
     mode = "total"
     input_file = None
     output_file = None
     remaining = []
+
     for arg in args:
         if arg.startswith("mode="):
             mode = arg.split("=", 1)[1].strip().lower()
         else:
             remaining.append(arg)
+
     args = remaining
+
     if len(args) < 1:
-        print("ERROR: Input CSV file is required.")
+        print("ERROR: Input CSV file is required.\n")
+        print_usage()
         sys.exit(1)
+
     input_file = args[0]
+
     if len(args) > 1:
         output_file = args[1]
+
     if mode not in ("sheet", "total"):
-        print("ERROR: Mode must be 'sheet' or 'total'")
+        print(f"ERROR: Invalid mode '{mode}'. Mode must be 'sheet' or 'total'.\n")
+        print_usage()
         sys.exit(1)
+
     return input_file, output_file, mode
 
 def process_csv(input_filename, output_filename=None, mode="total"):
