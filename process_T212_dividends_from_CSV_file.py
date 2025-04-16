@@ -275,6 +275,7 @@ def process_rows(rows):
         method = "1" if paidtax_BGN > Decimal("0") else "3"
         if paidtax_BGN == 0:
             tax_due = permitted_tax_credit
+            permitted_tax_credit = 0 # for consistency with nap-autopilot
         else:
             tax_due = max(Decimal("0"), permitted_tax_credit - paidtax_BGN)
 
