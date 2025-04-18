@@ -22,26 +22,44 @@ REQUIRED_HEADERS = [
 
 ALLOWED_MODES = ["nap-autopilot", "table", "sheet"]
 
-# --- Utility functions ---
-
 def parse_args():
-    mode = "nap-autopilot"
-    input_file = output_file = None
-    # Allow mode to appear anywhere in the arguments.
     args = sys.argv[1:]
+    mode = ALLOWED_MODES[0]
+    input_file = output_file = None
+
+    # Separate mode and filenames
+    filenames = []
     for arg in args:
         if arg.startswith("mode="):
             mode = arg.split("=", 1)[1].strip()
-        elif input_file is None:
-            input_file = arg
+        elif "=" in arg:
+            print(f"ERROR: Unexpected argument '{arg}'. Use mode=VALUE and ensure filenames do not contain '='.")
+            sys.exit(1)
         else:
-            output_file = arg
-    if not input_file or not output_file:
-        print("Usage: ./process_T212_dividends.py input.csv output.csv [mode=nap-autopilot|sheet|table]")
+            filenames.append(arg)
+
+    # Validate filenames count
+    if len(filenames) != 2:
+        print(f"Usage: {os.path.basename(sys.argv[0])} input.csv output.csv [mode={'|'.join(ALLOWED_MODES)}]")
         sys.exit(1)
+
+    input_file, output_file = filenames
+
+    # Validate extensions
+    if not input_file.lower().endswith(".csv") or not output_file.lower().endswith(".csv"):
+        print("ERROR: Both input and output files must have a .csv extension.")
+        sys.exit(1)
+
+    # Validate output file doesn't have mode-like name
+    if "mode=" in output_file or output_file.startswith("mode"):
+        print(f"ERROR: Output file '{output_file}' looks like a mode declaration. Please rename it.")
+        sys.exit(1)
+
+    # Validate mode
     if mode not in ALLOWED_MODES:
         print(f"ERROR: Mode '{mode}' is not valid. Allowed modes are: {', '.join(ALLOWED_MODES)}")
         sys.exit(1)
+
     return input_file, output_file, mode
 
 def read_csv_file(file_path):
