@@ -372,6 +372,39 @@ Interactive Brokers съм ги хващал да слагат грешна да
 
     $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv
 
+## Автоматична обработка на дивидентите от Interactive Brokers
+
+Скриптът работи само с файлове `.csv` (не се опитвайте да го ползвате с `.pdf`, няма да работи).
+
+Скриптът обработва само информацията за дивидентите и удържаните данъци върху дивидентите.
+
+    $ ./process_IBKR_dividends.py 
+    Usage:
+
+    Single file mode:
+
+      process_IBKR_dividends.py input.csv output.csv [mode=nap-autopilot|table|sheet] [input=one]
+
+    Two files mode (with separate Financial Instrument Information):
+
+      process_IBKR_dividends.py input.csv input_FII.csv output.csv [mode=nap-autopilot|table|sheet] [input=two]
+
+    Options:
+
+      mode=      Output format: nap-autopilot, table, sheet
+      input=     Input mode: 'one' (single file) or 'two' (separate FII file)
+
+Скриптът приема два типа справки за дивидентите - Activity Statement (желателно със секция Financial Instrument Information за да излязат на изхода имената на компаниите, а не тикерите) и Flex Query (Cash Transactions).
+
+Когато се ползва Flex Query без да се зададе втори файл, съдържащ секция Financial Instrument Information, на изхода ще излязат тикерите вместо имената на компаниите.
+
+По подразбиране извежда на изхода данни във формата за nap-autopilot, но може да зададете чрез `mode=table` или `mode=sheet` по-подробни данни.
+
+Желателно е да подавате Activity Statement, който е тип custom statement  само с необходимите раздели (Combined Dividends, Withholding Tax, Financial Instrument Information).
+
+С моите данни работи и с двата типа справки. Но за да сте сигурни може да го пробвате с двата типа справки и да сравните резултатите. Когато работи с данни тип Flex Query намирането на правилните удържани данъци работи по-прецизно, защото има идентификатор `ActionID`, който недвусмислено указва кои данъци за кои дивиденти се отнасят. Но за да излязат имената на компаниите трябва да захраните скрипта с втори файл, който е тип Activity Statement и съдържа секция Financial Instrument Information.
+
+Ако се обърката да полвате custom statement с всички възможни раздели скриптът ще засече дублирани данни и ще изведе съобщение за грешка (данните на изхода ще са грешни). Причината е, че ако изберете всички възможни раздели се получава дублиране на данните.
 
 -----
 
