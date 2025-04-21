@@ -25,7 +25,7 @@ $ ./BNB_downloader.py USD 2024 USD_2024_corrected.csv
 
 Подробно как се ползват:
 * [Автоматична обработка на данните от Interactive Brokers](README-IBKR.md)
-* ........
+* [Автоматична обработка на данните от Trading212](README-T212.md)
 
 (Уточнение: Електронните таблици за LibreOffice Calc работят без Питон, те си имат всичко необходимо в тях, може да свалите само таблицата, която ви трябва. Ползват макрос на Бейсик, не Питон.)
 
@@ -312,77 +312,6 @@ Interactive Brokers съм ги хващал да слагат грешна да
 За дивидентите и лихвите сравнително лесно може да се автоматизира целия процес (ако справките не са в някой неподходящ за машинна обработка PDF формат като на TastyTrade). Но за капиталовата печалба има усложнения с данъчните лотове и определяне коя продажба трябва да се включи в изчисленията и коя не трябва (липват данни в справките за това дали сделката е минала на регулиран пазар или не, трябва да се вадят данни и от сайта на ESMA за [да се провери на кой сегмент от борсата е минала сделката и дали този сегмент е вписан като regulated market или не](https://redtapepayments.blogspot.com/2024/02/blog-post.html)). Има усложнения с данъчните лотове и при данните за притежавани акции и дялове към 31 декември.
 
 В справките на Degiro има данни за MIC кода на сегмента, през който е минала сделката. Такива данни няма в спраквите на Interactive Brokers. Освен това в справките от Interactive Brokers идентификаторите на борсите не са стандартни MIC кодове и се налага да се проверява в сайта на Interactive Brokers кой идентификатор на коя борса съответства. Правете разлика между MIC код на борса и MIC код на сегмент на борса.
-
------
-## Автоматична обработка на дивидентите от Trading212
-
-Скриптът `process_T212_dividends_from_CSV_file.py` приема CSV файл от Trading212 за дивидентите и извежда CSV файл за nap-autopilot (или файл за разглеждане в програма за електронни таблици като LibreOffice Calc и Excel).
-
-    $ ./process_T212_dividends_from_CSV_file.py
-    Usage: ./process_T212_dividends.py input.csv output.csv [mode=nap-autopilot|sheet|table]
-
-Има три режима на работа - nap-autopilot, sheet (за детайлен преглед на междинните резултати) и table (за любителите на ръчното преписване от електронна таблица във формуляра на данъчната декларация). При наличието на nap-autopilot няма особен смисъл от ръчното преписване. Ако не се зададе параметър mode се приема режим nap-autopilot.
-
-За да работи скрипта трябва да има директория `currency_rates` в директорията, където е този скрипт. Препоръчително е да присъства и файла `ISIN_country.csv`, който съдържа някои съответствия между ISIN кодове и държави. Точното описване на държавите не е особено важно, от значение е декларираният данък да не е по-малко.
-
-Когато има удържани данъци върху дивидентите резултатите са приблизителни, но това не е проблем, защото може погрешка да се декларира по-малко дължим в България данък само в случаите когато удържаният в чужбина данък е над 0%, но под 5% (не се сещам за случай когато се удържа такъв данък, много малко вероятно е да попаднете на такъв данък).
-
-Не поправя датата, само извежда съобщение (warning), че датата може да е грешна заради разликата в часово време (вероятно GMT е за CSV справките). Другите скриптове (за лихви и кешбеци) - също.
-
-## Автоматична обработка на лихвите от Trading212
-
-    $ ./process_T212_interest_from_CSV_file.py 
-    ERROR: Input CSV file is required.
-    
-    Usage:  process_T212_interest_from_CSV_file.py [mode=sheet|total] <input_csv> [output_csv]
-      mode         Optional. 'sheet' to generate spreadsheet-style output, 'total' (default) for summary.
-      input_csv    Required. Path to the input CSV file.
-      output_csv   Optional. Path to the output CSV file.
-
-Може да изведе csv файл с детайли:
-
-    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-table-interest.csv mode=sheet
-
-Или само обща сума:
-
-    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-total-interest-value.txt mode=total
-
-По подразбиране приема mode=total:
-
-    $ ./process_T212_interest_from_CSV_file.py input_interest.csv output-total-interest-value.txt
-
-Ако не се зададе име на файл за запис извежда само на екрана общата сума:
-
-    $ ./process_T212_interest_from_CSV_file.py input_interest.csv
-
-
-## Автоматична обработка на кешбеците от Trading212
-
-
-    $ ./process_T212_cashback_from_CSV_file.py 
-    ERROR: Input CSV file is required.
-    
-    Usage: process_T212_cashback_from_CSV_file.py [mode=sheet|total] <input_csv> [output_csv]
-      mode=...      Optional. Choose 'sheet' or 'total' (default is 'total').
-      input_csv     Required. Path to input CSV file.
-      output_csv    Optional. Path to output CSV file (defaults to stdout or derived).
-
-Може да изведе csv файл с детайли:
-
-    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-table-cashback.csv mode=sheet
-
-Или само обща сума:
-
-    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-total-cashback-value.txt mode=total
-
-По подразбиране приема mode=total:
-
-    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv output-total-cashback-value.txt
-
-Ако не се зададе име на файл за запис извежда само на екрана общата сума:
-
-    $ ./process_T212_cashback_from_CSV_file.py input_cashback.csv
-
 
 -----
 
