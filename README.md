@@ -4,12 +4,14 @@
 
 Ако ползвате Linux вероятно вече имате инсталиран Pytyhon. Потребителите на други операционни системи [може да изтеглят Pyton от тук](https://www.python.org/downloads/).
 
+Потребителите на Windows може да опитат първо да стартират `install_requirements.bat`, може би ще успее да инсталира зависимостите (пакетите, които се ползват от скриптовете).
+
 За инсталиране на зависимостите една от тези команди би трябвало да работи:
 
-    python3 -m pip install -r requirements.txt
-
     py -m pip install -r requirements.txt
-
+    
+    python3 -m pip install -r requirements.txt
+    
     pip3 install -r requirements.txt
 
 Разбира се текущата директория трябва да е тази, където е файла requirements.txt (или да опишете пълния път до файла).
