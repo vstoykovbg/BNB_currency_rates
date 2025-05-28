@@ -90,16 +90,6 @@ def parse_args():
         'input_mode': input_mode
     }
 
-def extract_instrument_names_simple_version(rows):
-    isin_name_map = {}
-    for row in rows:
-        if len(row) >= 7 and row[0] == "Financial Instrument Information" and row[1] == "Data":
-            isin = row[6].strip()
-            name = row[4].strip()
-            if isin and name:
-                isin_name_map[isin] = name
-    return isin_name_map
-
 def extract_instrument_names(rows):
     isin_name_map = {}
     headers = {}
@@ -115,17 +105,19 @@ def extract_instrument_names(rows):
 
         if section == "Financial Instrument Information":
             if row_type == "Header":
-                headers = {key: idx for idx, key in enumerate(row[2:], start=2)}
+                current_headers = {key: idx for idx, key in enumerate(row[2:], start=2)}
                 
-                # Validate presence
-                if "Description" not in headers or "Security ID" not in headers:
-                    print("Missing required fields in header row: Description or Security ID")
-                    return {}
-
-                # Cache indices for performance and readability
-                headers_description = headers["Description"]
-                headers_security_id = headers["Security ID"]
-                in_fii_section = True
+                # Check if this header has the required columns
+                if "Description" in current_headers and "Security ID" in current_headers:
+                    # This is a compatible header, use it
+                    headers = current_headers
+                    headers_description = headers["Description"]
+                    headers_security_id = headers["Security ID"]
+                    in_fii_section = True
+                else:
+                    # This header doesn't have what we need, skip it
+                    in_fii_section = False
+                    continue
 
             elif row_type == "Data" and in_fii_section:
                 try:
@@ -136,7 +128,8 @@ def extract_instrument_names(rows):
                 except IndexError:
                     continue
         elif in_fii_section and section != "Financial Instrument Information":
-            break
+            # We've left the section we were processing
+            in_fii_section = False
 
     return isin_name_map
 
@@ -710,14 +703,17 @@ def write_output(results, output_file, mode):
     print(f"ⓘ  notice: Output written to {output_file} in mode '{mode}'.")
 
 def detect_duplicate_sections(rows):
-    """Check for duplicate sections by counting header rows of the same section"""
+    """Check for duplicate sections by counting header rows of the same section,
+    while ignoring duplicate 'Financial Instrument Information' sections."""
     section_counts = Counter()
     
     for row in rows:
         # Only look at properly formatted header rows
         if len(row) >= 2 and row[1] == "Header":
             section_name = row[0]
-            section_counts[section_name] += 1
+            # Skip counting Financial Instrument Information sections
+            if section_name != "Financial Instrument Information":
+                section_counts[section_name] += 1
     
     # Return only sections that have more than one header row
     return [section for section, count in section_counts.items() if count > 1]
