@@ -100,7 +100,7 @@ def index_opening_trades(elements):
         sub_category = el.get("subCategory")
         description = el.get("description")
         isin = el.get("isin")
-        exchange = el.get("listingExchange")
+        exchange = el.get("exchange")
         fx_rate = Decimal(el.get("fxRateToBase", "1") or "1")  # Default to 1 if not found
 
         # New attributes to include
@@ -363,7 +363,7 @@ def process_closing_trades(elements, opens, convert_date=False):
                 "symbol": el.get("symbol") if pos_type == "LONG" else op.get("symbol", "") if op else "",
                 "description": description,
                 "isin": el.get("isin") if pos_type == "LONG" else op.get("isin", "") if op else "",
-                "exchange": el.get("listingExchange") if pos_type == "LONG" else op.get("exchange", "") if op else ""
+                "exchange": el.get("exchange") if pos_type == "LONG" else op.get("exchange", "") if op else ""
             }
 
             results.append(trade_data)
