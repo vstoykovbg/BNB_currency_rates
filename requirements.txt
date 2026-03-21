@@ -1,3 +1,4 @@
 pandas
 python-dateutil
-odf
+odfpy
+lxml
