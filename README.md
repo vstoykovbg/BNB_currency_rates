@@ -26,6 +26,16 @@
 
 Разбира се текущата директория трябва да е тази, където е файла requirements.txt (или да опишете пълния път до файла).
 
+Инсталиране само за текущия потребител:
+
+    python3 -m pip install --user -r requirements.txt
+    
+    pip3 install --user -r requirements.txt
+
+За потребители на Windows (само за текущия потребител):
+
+    py -m pip install --user -r requirements.txt
+
 ## Питонски скриптове за обработка на данни от Trading212 и Interactive Brokers
 
 За да работят коректно трябва да изтеглите заедно с тях и някои други важни файлове и директории с файлове и те да са в текущата директория. Най-лесно е да изтеглите всичко в zip файл - от бутона Code се отваря меню, от което избирате Download ZIP (или от [този линк](https://github.com/vstoykovbg/BNB_currency_rates/archive/refs/heads/main.zip)).
